@@ -9,7 +9,7 @@ using namespace std;
 bool isBalanced(string str) {
     stack<char> s;
     for(int i=0 ;i< str.length(); i++){
-        char ch = str[i];
+        char c = str[i];
         if (c == '(' || c == '{' || c == '[')
             s.push(c);
         else if (c == ')' || c == '}' || c == ']') {
