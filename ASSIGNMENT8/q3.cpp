@@ -22,18 +22,51 @@ Node* findMin(Node* root){
     return root;
 }
 
-Node* deleteNode(Node* root, int key){
-    if(!root) return root;
-    if(key < root->data) root->left=deleteNode(root->left,key);
-    else if(key > root->data) root->right=deleteNode(root->right,key);
-    else{
-        if(!root->left) return root->right;
-        else if(!root->right) return root->left;
-        Node* t = findMin(root->right);
-        root->data = t->data;
-        root->right = deleteNode(root->right,t->data);
+Node* DeleteFromBST(Node* root, int val){
+    // base case
+    if(root == NULL){
+        return root;
     }
-    return root;
+    if(root->data == val){
+         // 0 child
+         if(root->left == NULL && root->right == NULL){
+            delete  root;
+            return NULL;
+         }
+
+         // 1 child 
+
+         // left child 
+         if(root->right == NULL && root->left !=NULL){
+            Node* temp = root->left;
+            delete root;
+            return temp;
+         }
+         // right child
+
+         if(root->right != NULL && root->left == NULL){
+            Node* temp = root->right;
+            delete root;
+            return temp;
+         }
+         // 2 child
+         if(root->right != NULL && root->left != NULL){
+            int mini = minValue(root->right)-
+            >data;
+            root->data = mini;
+            root->right = DeleteFromBST(root->right,mini);
+            return root;
+         }
+    }
+    else if(root->data> val){
+        root->left = DeleteFromBST(root->left, val);
+
+    }
+    else{
+        root->right = DeleteFromBST(root->right,val);
+    }
+
+
 }
 
 int maxDepth(Node* root){
@@ -55,7 +88,7 @@ int main(){
     for(int i=0;i<n;i++){ cin>>x; root=insertNode(root,x); }
 
     cin>>d;
-    root = deleteNode(root,d);
+    root = DeleteFromBST(root,d);
 
     cout<<maxDepth(root)<<endl;
     cout<<minDepth(root)<<endl;
